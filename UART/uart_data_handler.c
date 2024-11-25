@@ -13,6 +13,10 @@ void uart_data_handler_init(){
     HAL_UART_Receive_IT(&huart2,&button_percent,1);
 }
 
+void uart_data_handler_register_callback(UART_VOLTAGE_CB function){
+  voltage_cb_function = function;
+}
+
 static void MX_USART2_UART_Init(void){
   huart2.Instance = USART2;
   huart2.Init.BaudRate = 115200;
