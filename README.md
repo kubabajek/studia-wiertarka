@@ -5,5 +5,5 @@ Symulacja przycisku wiertarki z aplikacji do zadawania sterowania na silnik wier
 https://aghedupl-my.sharepoint.com/:x:/g/personal/bajek_student_agh_edu_pl/EURINE9-kjBBvn5G8uZl9icB1jw9gwkHAfR6Vx-a5DW2cA?e=o6MvEm
 
 ## DAC POZIOM NAPIĘĆ
-* *MIN - **0,045V*** *
-* *MAX - **3,276V*** *
+* *MIN - **0,045V*** 
+* *MAX - **3,276V*** 
