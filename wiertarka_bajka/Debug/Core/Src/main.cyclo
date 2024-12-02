@@ -1,0 +1,9 @@
+../Core/Src/main.c:63:10:convert_percent_to_12bits_value	1
+../Core/Src/main.c:70:6:send_via_DAC	1
+../Core/Src/main.c:79:6:receive_percent	1
+../Core/Src/main.c:89:5:main	1
+../Core/Src/main.c:152:6:SystemClock_Config	3
+../Core/Src/main.c:200:13:MX_DAC_Init	3
+../Core/Src/main.c:240:13:MX_USART2_UART_Init	2
+../Core/Src/main.c:273:13:MX_GPIO_Init	1
+../Core/Src/main.c:313:6:Error_Handler	1
