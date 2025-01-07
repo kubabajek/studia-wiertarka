@@ -9,9 +9,13 @@ from PySide6.QtCore import QObject, Signal, Slot, QThread, QUrl
 from PySide6.QtWidgets import QApplication
 from modules.communicator import Communicator
 
-
+ON = 200
+OFF = 201
+RIGHT = 202
+LEFT = 203
 
 class MainClass(QObject):
+
     #Signals to connect with Communicator class
     sendDataSignal = Signal(int, int) 
 
