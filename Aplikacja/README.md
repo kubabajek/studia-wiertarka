@@ -4,4 +4,4 @@ Link do aplikacji: https://aghedupl-my.sharepoint.com/:u:/g/personal/bajek_stude
 ## Zaimplementowane funkcjonalności
 - połączenie z wybranym portem com
 - wysłanie procentowej wartości przez UART wciśnięcia przycisku po zmianie wartości w aplikacji
-- wybór stanu ON/OFF oraz kierunku obrotu * (wersja 2.0) *
+- wybór stanu ON/OFF oraz kierunku obrotu *(wersja 2.0)*
