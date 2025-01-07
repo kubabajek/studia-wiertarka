@@ -16,6 +16,8 @@ ApplicationWindow {
     property var connection_message: "Select COM"
 
     property var mee: 0
+    property var power_message: "SET POWER"
+    property var direction_message: "SET DIRECTION"
   
 
     Rectangle{
@@ -91,7 +93,95 @@ ApplicationWindow {
             }
         }
     }
-    
+
+
+    Button {
+        id: button_direction_left
+        text: "LEFT"
+        visible: connected
+        onClicked:{
+            backend.directionButtonSlot(false)
+            direction_message = "DIRECTION: LEFT"
+        } 
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.bottomMargin: 50
+        anchors.leftMargin: 5
+    }
+
+    Button {
+        id: button_direction_right
+        text: "RIGHT"
+        visible: connected
+        onClicked: {
+            backend.directionButtonSlot(true)
+            direction_message = "DIRECTION: RIGHT"
+        }
+        anchors.verticalCenter: button_direction_left.verticalCenter
+        anchors.left: button_direction_left.right
+        anchors.leftMargin: 5
+    }
+
+    Button {
+        id: button_power_on
+        text: "ON"
+        visible: connected
+        onClicked:{
+            backend.powerButtonSlot(true)
+            power_message = "POWER: ON"
+        }
+        anchors.horizontalCenter: button_direction_right.horizontalCenter
+        anchors.bottom: button_direction_right.top
+        anchors.bottomMargin: 5
+    }
+
+    Button {
+        id: button_power_off
+        text: "OFF"
+        visible: connected
+        onClicked: {
+            backend.powerButtonSlot(false)
+            power_message = "POWER: OFF"
+        }
+        anchors.horizontalCenter: button_direction_left.horizontalCenter
+        anchors.bottom: button_direction_left.top
+        anchors.bottomMargin: 5
+    }
+
+    Rectangle {
+        id: direction_message_area
+        width: 100
+        color: "white"
+        visible: connected
+        height: button_direction_right.height
+        anchors.verticalCenter: button_direction_right.verticalCenter
+        anchors.left: button_direction_right.right
+        anchors.leftMargin: 5
+        Text {
+            text: direction_message
+            anchors.centerIn: parent
+            color: "black"
+        }
+    }
+
+    Rectangle {
+        id: power_message_area
+        width: 100
+        color: "white"
+        visible: connected
+        height: button_power_on.height
+        anchors.horizontalCenter: direction_message_area.horizontalCenter
+        anchors.verticalCenter: button_power_on.verticalCenter
+        anchors.leftMargin: 5
+        Text {
+            text: power_message
+            anchors.centerIn: parent
+            color: "black"
+        }
+    }
+
+
+    // CONNECTIONS
     
     Button {
         id: button_connect
@@ -114,6 +204,10 @@ ApplicationWindow {
         function onConnectionStatusSignal(state, message){
             connected = state
             connection_message = message
+            if(connected){
+                power_message = "SET POWER"
+                direction_message = "SET DIRECTION"
+            }
         }
     }
 }

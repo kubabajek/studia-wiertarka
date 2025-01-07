@@ -9,10 +9,10 @@ from PySide6.QtCore import QObject, Signal, Slot, QThread, QUrl
 from PySide6.QtWidgets import QApplication
 from modules.communicator import Communicator
 
-ON = 200
-OFF = 201
-RIGHT = 202
-LEFT = 203
+POWER_ON = 200
+POWER_OFF = 201
+DIRECTION_RIGHT = 202
+DIRECTION_LEFT = 203
 
 class MainClass(QObject):
 
@@ -63,7 +63,21 @@ class MainClass(QObject):
             print(f"Update button % value: {percentage}")
             self.uart.send(percentage, 1)
 
+    @Slot (bool)
+    def powerButtonSlot(self, state: bool):
+        if(self.uart.connected):
+            print("Turn power ON" if state else "Turn power OFF")
+            self.uart.send(POWER_ON if state else POWER_OFF, 1)
+        else:
+            print("DEBUG: uart not connected error")
 
+    @Slot (bool)
+    def directionButtonSlot(self, direction: bool):
+        if(self.uart.connected):
+            print("Turn direction RIGHT" if direction else "Turn direction LEFT")
+            self.uart.send(DIRECTION_RIGHT if direction else DIRECTION_LEFT, 1)
+        else:
+            print("DEBUG: uart not connected error")        
 
 
 

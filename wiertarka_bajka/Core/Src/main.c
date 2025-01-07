@@ -116,7 +116,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_DAC_Start(&hdac, DAC_CHANNEL_1);
   uart_data_handler_init();
-  uart_data_handler_register_callback(receive_percent);
+  uart_data_handler_register_callback_speed(receive_percent);
 
   
 
