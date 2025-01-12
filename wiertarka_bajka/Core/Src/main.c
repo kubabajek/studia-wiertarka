@@ -60,20 +60,24 @@ void receive_percent(uint8_t button_percent);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+uint32_t numarray[12];
 uint16_t convert_percent_to_12bits_value(uint8_t percent)
 {
 	  float percent_16b = (float)percent;
 	  float target_voltage = percent_16b/100.0*MAX_NUMBER;
+//	  sprintf(numarray, "%d\n", percent);
+//	  HAL_Delay(1000);
+//	  HAL_UART_Transmit(&huart2, numarray, 4, 1000);
+
+//	  HAL_Delay(1000);
 	  return (uint16_t)target_voltage;
 }
 
 void send_via_DAC(uint8_t percent)
 {
-    uint16_t voltage = convert_percent_to_12bits_value(percent);
-    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-
-	  HAL_UART_Transmit(&huart2, &voltage, 2, 100);
-	  HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, DAC_ALIGN_12B_R, voltage);
+//	  uint16_t voltage = convert_percent_to_12bits_value(percent);
+	  HAL_UART_Transmit(&huart2, &percent, 1, 100);
+	  HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, DAC_ALIGN_12B_R, percent*40);
 }
 
 void receive_percent(uint8_t button_percent)
@@ -88,7 +92,6 @@ void receive_percent(uint8_t button_percent)
   */
 int main(void)
 {
-
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -116,9 +119,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_DAC_Start(&hdac, DAC_CHANNEL_1);
   uart_data_handler_init();
-  uart_data_handler_register_callback_speed(receive_percent);
-
-  
+  uart_data_handler_register_callback(receive_percent);
 
 //  uint32_t numarray[12];
 //  float convert_percent_to_voltage(uint8_t percent)
@@ -248,7 +249,7 @@ static void MX_USART2_UART_Init(void)
 
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 9600;
+  huart2.Init.BaudRate = 115200;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
@@ -273,8 +274,6 @@ static void MX_USART2_UART_Init(void)
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
-/* USER CODE BEGIN MX_GPIO_Init_1 */
-/* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
@@ -298,8 +297,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
 
-/* USER CODE BEGIN MX_GPIO_Init_2 */
-/* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
