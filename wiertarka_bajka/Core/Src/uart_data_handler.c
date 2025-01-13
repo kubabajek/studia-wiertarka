@@ -28,13 +28,14 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
         }
         else{
             switch(received_data){
-                case 200: if(cb_function_power != NULL) cb_function_power(true); break;
-                case 201: if(cb_function_power != NULL) cb_function_power(false); break;
-                case 202: if(cb_function_direction != NULL) cb_function_direction(true); break;
-                case 203: if(cb_function_direction != NULL) cb_function_direction(false); break;
+                case 200: if(cb_function_power != NULL) cb_function_power(true); led_set(true); break;
+                case 201: if(cb_function_power != NULL) cb_function_power(false); led_set(false); break;
+                case 202: if(cb_function_direction != NULL) cb_function_direction(true); led_set(true); break;
+                case 203: if(cb_function_direction != NULL) cb_function_direction(false); led_set(false); break;
                 default: NULL;
             }
         }
+        uart_transmit_byte(received_data);
         HAL_UART_Receive_IT(&huart2, &received_data, 1);
     }
 }
