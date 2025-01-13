@@ -56,6 +56,8 @@ static void MX_USART2_UART_Init(void);
 static void MX_DAC_Init(void);
 /* USER CODE BEGIN PFP */
 void receive_percent(uint8_t button_percent);
+void turn_on_power(bool power_on_bit);
+void change_direction(bool change_direction_bit);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -83,6 +85,31 @@ void send_via_DAC(uint8_t percent)
 void receive_percent(uint8_t button_percent)
 {
 	  send_via_DAC(button_percent);
+
+}
+
+void turn_on_power(bool power_on_bit)
+{
+	 if (power_on_bit)
+	 {
+		 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
+	 }
+	 else
+	 {
+		 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
+	 }
+}
+
+void change_direction(bool change_direction_bit)
+{
+	 if (change_direction_bit)
+	 {
+		 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
+	 }
+	 else
+	 {
+		 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
+	 }
 }
 /* USER CODE END 0 */
 
@@ -119,7 +146,10 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_DAC_Start(&hdac, DAC_CHANNEL_1);
   uart_data_handler_init();
-  uart_data_handler_register_callback(receive_percent);
+  uart_data_handler_register_callback_power(turn_on_power);
+  uart_data_handler_register_callback_speed(receive_percent);
+  uart_data_handler_register_callback_direction(change_direction);
+  //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
 
 //  uint32_t numarray[12];
 //  float convert_percent_to_voltage(uint8_t percent)
@@ -282,7 +312,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LD2_Pin|GPIO_PIN_11|GPIO_PIN_12, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -290,12 +320,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : LD2_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin;
+  /*Configure GPIO pins : LD2_Pin PA11 PA12 */
+  GPIO_InitStruct.Pin = LD2_Pin|GPIO_PIN_11|GPIO_PIN_12;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 }
 
